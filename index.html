@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Developer Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <script src="js/main.js" defer></script>
+    <script src="js/i18n.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <span class="motto">今日も私は出かける</span>
+                <div class="nav-controls">
+                    <div class="language-switcher">
+                        <button data-lang="en">EN</button>
+                        <button data-lang="zh">中文</button>
+                        <button data-lang="ja">日本語</button>
+                    </div>
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <div class="container">
+                <svg class="avatar" viewBox="0 0 170 170" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor" d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929 0.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002 0.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-0.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375-0.119-0.972-0.188-1.995-0.188-3.07 0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71 0.12 1.083 0.17 2.166 0.17 3.241z"/>
+                </svg>
+                <h1 class="name" data-i18n="name">Jethro Liu</h1>
+                <h2 class="title" data-i18n="title">iOS Developer</h2>
+            </div>
+        </section>
+
+        <section class="experience">
+            <div class="container">
+                <h2 data-i18n="experience.title">Work Experience</h2>
+                <div class="job">
+                    <h3 data-i18n="job.desoul.company">Desoul Inc</h3>
+                    <p class="job-title" data-i18n="job.desoul.title">iOS Application Development Engineer (Part Time), 2024.5 - Present</p>
+                    <p class="job-location" data-i18n="job.desoul.location">Remote, Japan</p>
+                    <ul class="job-details">
+                        <li data-i18n="job.desoul.detail1">Independently developed the DODOFLASH application</li>
+                        <li data-i18n="job.desoul.detail2">Responsible for page refactoring, feature iterations, and performance optimization</li>
+                    </ul>
+                </div>
+
+                <div class="job">
+                    <h3 data-i18n="job.exawizards.company">ExaWizards Inc</h3>
+                    <p class="job-title" data-i18n="job.exawizards.title">Full-stack Application Development Engineer (Summer Intern), 2024.8 – 2024.9</p>
+                    <p class="job-location" data-i18n="job.exawizards.location">Tokyo, Japan</p>
+                    <ul class="job-details">
+                        <li data-i18n="job.exawizards.detail1">Full stack development with Kotlin + WASM for frontend and Ktor framework for backend</li>
+                        <li data-i18n="job.exawizards.detail2">R&D app development using Kotlin, TypeScript, and Python</li>
+                    </ul>
+                </div>
+
+                <div class="job">
+                    <h3 data-i18n="job.alibaba.company">Alibaba Group</h3>
+                    <p class="job-title" data-i18n="job.alibaba.title">Software Development Engineer, Taobao Department, 2021 – 2023</p>
+                    <p class="job-location" data-i18n="job.alibaba.location">Hangzhou, China</p>
+                    <p class="job-overview" data-i18n="job.alibaba.overview">Responsible for live streaming and short video related development in Taote app, as well as part of performance optimization.</p>
+                    <div class="job-sections">
+                        <div class="job-section">
+                            <h4 data-i18n="job.alibaba.seller.title">Taote Seller App:</h4>
+                            <ul class="job-details">
+                                <li data-i18n="job.alibaba.seller.detail1">Led the development of the iOS section of the live streaming's start-up feature, transitioning from mini-program to native&Flutter.</li>
+                                <li data-i18n="job.alibaba.seller.detail2">Implemented core functionalities such as beautification and noise reduction, optimizing streaming modes which doubled the daily broadcasting frequency.</li>
+                                <li data-i18n="job.alibaba.seller.detail3">Pioneered the use of Flutter in the live streaming segment, developing critical features such as the commodity pocket and beauty tools. Established foundational broadcasting capabilities including a Flutter video streaming component and native channel capabilities.</li>
+                            </ul>
+                        </div>
+                        <div class="job-section">
+                            <h4 data-i18n="job.alibaba.buyer.title">Taote Buyer App:</h4>
+                            <ul class="job-details">
+                                <li data-i18n="job.alibaba.buyer.detail1">Managed daily business iterations under the "Watch Videos" tab, including the implementation of the comments panel, voting systems, and multimedia integration.</li>
+                                <li data-i18n="job.alibaba.buyer.detail2">Developed the content community's media publishing capabilities, enhancing the multimedia functionalities from scratch and improving UGC publication pathways.</li>
+                                <li data-i18n="job.alibaba.buyer.detail3">Served as the project manager for engineering excellence, responsible for coding standards and testing across the team. Established a complete workflow for each iteration, including build, test, review, and integration.</li>
+                            </ul>
+                        </div>
+                        <div class="job-section">
+                            <h4 data-i18n="job.alibaba.daraz.title">Daraz Seller App (International Digital Business Department):</h4>
+                            <ul class="job-details">
+                                <li data-i18n="job.alibaba.daraz.detail1">Primarily responsible for the development of seller functionalities including product listings, merchant onboarding, and coupon management.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job">
+                    <h3 data-i18n="job.tplink.company">TP-LINK</h3>
+                    <p class="job-title" data-i18n="job.tplink.title">Software Development Engineer, 2020 – 2021</p>
+                    <p class="job-location" data-i18n="job.tplink.location">Hangzhou, China</p>
+                    <ul class="job-details">
+                        <li data-i18n="job.tplink.detail1">iOS development with Swift for security tester and battery doorbell features</li>
+                        <li data-i18n="job.tplink.detail2">Debugging of embedded devices and Jenkins configuration management</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="education">
+            <div class="container">
+                <h2 data-i18n="education.title">Education</h2>
+                <div class="education-item">
+                    <div class="edu-content">
+                        <div class="school-info">
+                            <h3 data-i18n="education.waseda">Waseda University</h3>
+                            <span class="location" data-i18n="location.japan">Japan</span>
+                        </div>
+                        <div class="degree-info">
+                            <p class="degree" data-i18n="education.waseda.degree">Master of Engineering in Computer Science</p>
+                            <span class="period" data-i18n="education.waseda.period">2024 - 2026</span>
+                        </div>
+                        <ul class="honor-list">
+                            <li data-i18n="education.waseda.honor">Monbukagakusho Honor's Scholarship (2024)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="education-item">
+                    <div class="edu-content">
+                        <div class="school-info">
+                            <h3 data-i18n="education.csu">Central South University</h3>
+                            <span class="location" data-i18n="location.china">China</span>
+                        </div>
+                        <div class="degree-info">
+                            <p class="degree" data-i18n="education.csu.degree">Bachelor of Engineering in The Internet of Things Engineering</p>
+                            <span class="period" data-i18n="education.csu.period">2016 - 2020</span>
+                        </div>
+                        <ul class="honor-list">
+                            <li data-i18n="education.csu.honor1">Second Prize of the 12th "Sublimation Cup" Student Entrepreneurship Competition</li>
+                            <li data-i18n="education.csu.honor2">Third Prize of the Second Intelligent Interconnection Competition</li>
+                            <li data-i18n="education.csu.honor3">Lenovo Intelligent Eco College Innovation Competition Central China Top Ten</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills">
+            <div class="container">
+                <h2 data-i18n="skills.title">Languages, Skills and Technologies</h2>
+                <ul class="skills-list">
+                    <li><strong data-i18n="skills.programming.title">Programming Languages:</strong> <span data-i18n="skills.programming.content">Swift, Objective-C, C/C++, Python, SQL, Kotlin</span></li>
+                    <li><strong data-i18n="skills.frameworks.title">Frameworks & Tools:</strong> <span data-i18n="skills.frameworks.content">UIKit, SwiftUI, Flutter, Ktor, Jenkins</span></li>
+                    <li><strong data-i18n="skills.languages.title">Languages:</strong> <span data-i18n="skills.languages.content">English (Fluent), Japanese (Beginner), Mandarin (Native)</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="container">
+                <h2 data-i18n="contact.title">Contact</h2>
+                <div class="social-links">
+                    <a href="https://github.com/AlureLove" target="_blank" rel="noopener" aria-label="GitHub">
+                        <svg height="24" width="24" viewBox="0 0 16 16">
+                            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ruixuan-liu-826707306/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg height="24" width="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:jethroliu@toki.waseda.jp" aria-label="Email">
+                        <svg height="24" width="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jethro Liu. All rights reserved.</p>
+            <p class="credits">
+                <span data-i18n="footer.credits">Hosted on GitHub Pages — Theme inspired by</span>
+                <a href="https://github.com/orderedlist" target="_blank" rel="noopener">orderedlist</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html> 

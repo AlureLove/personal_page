@@ -1,0 +1,359 @@
+:root {
+    --primary-color: #007AFF;
+    --text-color: #333;
+    --bg-color: #fff;
+    --secondary-bg: #f5f5f5;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: var(--transition);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--bg-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 1rem;
+}
+
+.motto {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* Language Switcher */
+.language-switcher {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.language-switcher button {
+    padding: 0.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-color);
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.language-switcher button.active {
+    opacity: 1;
+    font-weight: 500;
+}
+
+.language-switcher button:hover {
+    opacity: 1;
+}
+
+/* Sections */
+section {
+    padding: 3rem 0;
+}
+
+.intro {
+    text-align: center;
+    padding-top: 5rem;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: var(--text-color);
+}
+
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.skill-item {
+    background-color: var(--secondary-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+/* Education Section */
+.education-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--secondary-bg);
+}
+
+.education-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.education-item .school-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.education-item .degree-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 0.5rem;
+}
+
+.education-item .degree {
+    color: var(--text-color);
+    margin: 0.5rem 0;
+}
+
+.education-item .period {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+/* Contact Section */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.social-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.social-links a:hover {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+} 
+
+/* Lists Styling */
+.interests-list,
+.skills-list,
+.projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.interests-list li {
+    margin: 0.5rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.interests-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+/* Job Experience */
+.job {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--secondary-bg);
+}
+
+.job:last-child {
+    border-bottom: none;
+}
+
+.job-title {
+    color: var(--text-color);
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+
+.job-details {
+    list-style: none;
+    padding-left: 1rem;
+    margin: 1rem 0;
+}
+
+/* Tech Stack Tags */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tech-stack span {
+    background-color: var(--secondary-bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+} 
+
+.job-location {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.education-item .location {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.job-details li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.job-details li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #666;
+} 
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.theme-toggle {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.theme-toggle svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: var(--transition);
+}
+
+.theme-toggle .moon-icon {
+    opacity: 0;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+    opacity: 0;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+    opacity: 1;
+}
+
+.credits {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+.credits a {
+    color: var(--primary-color);
+    text-decoration: none;
+} 
+
+/* Honors Section */
+.honor-group {
+    margin-bottom: 2rem;
+}
+
+.honor-group:last-child {
+    margin-bottom: 0;
+}
+
+.honor-list {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+.honor-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.9;
+} 
+
+.job-overview {
+    margin: 1rem 0;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.job-sections {
+    margin-top: 1.5rem;
+}
+
+.job-section {
+    margin-bottom: 1.5rem;
+}
+
+.job-section h4 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+} 
