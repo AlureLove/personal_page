@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 主题切换
     const themeToggle = document.querySelector('.theme-toggle');
     
     themeToggle.addEventListener('click', () => {
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     });
 
-    // 技能等级动画
     const skillLevels = document.querySelectorAll('.skill-level');
     skillLevels.forEach(skill => {
         const level = skill.getAttribute('data-level');
