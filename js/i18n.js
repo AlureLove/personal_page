@@ -1,7 +1,7 @@
 const translations = {
     en: {
         name: "Jethro Liu",
-        title: "iOS Developer",
+        title: "Full-stack Engineer",
         "experience.title": "Work Experience",
         "skills.title": "Languages, Skills and Technologies",
         "education.title": "Education",
@@ -65,17 +65,17 @@ const translations = {
         "job.alibaba.company": "Alibaba Group",
         "job.tplink.company": "TP-LINK",
         "skills.programming.title": "Programming Languages",
-        "skills.programming.content": "Swift, Objective-C, C/C++, Python, SQL, Kotlin",
+        "skills.programming.content": "Swift, Objective-C, C/C++, Python, SQL, Kotlin, Java",
         
         "skills.frameworks.title": "Frameworks & Tools",
-        "skills.frameworks.content": "UIKit, SwiftUI, Flutter, Ktor, Jenkins",
+        "skills.frameworks.content": "UIKit, SwiftUI, Flutter, Ktor, Jenkins, SpringBoot",
         
         "skills.languages.title": "Languages",
-        "skills.languages.content": "English (Fluent), Japanese (Beginner), Mandarin (Native)",
+        "skills.languages.content": "English (Fluent), Japanese (Intermediate), Mandarin (Native)",
     },
     zh: {
         name: "Jethro Liu",
-        title: "iOS 开发工程师",
+        title: "全栈工程师",
         "experience.title": "工作经历",
         "skills.title": "技术栈与语言能力",
         "education.title": "教育经历",
@@ -139,17 +139,17 @@ const translations = {
         "job.alibaba.company": "阿里巴巴集团",
         "job.tplink.company": "普联技术",
         "skills.programming.title": "Programming Languages",
-        "skills.programming.content": "Swift, Objective-C, C/C++, Python, SQL, Kotlin",
+        "skills.programming.content": "Swift, Objective-C, C/C++, Python, SQL, Kotlin, Java",
         
         "skills.frameworks.title": "Frameworks & Tools",
-        "skills.frameworks.content": "UIKit, SwiftUI, Flutter, Ktor, Jenkins",
+        "skills.frameworks.content": "UIKit, SwiftUI, Flutter, Ktor, Jenkins, SpringBoot",
         
         "skills.languages.title": "Languages",
-        "skills.languages.content": "英语 (流利), 日语 (初级), 普通话 (母语)",
+        "skills.languages.content": "英语 (流利), 日语 (中级), 普通话 (母语)",
     },
     ja: {
         name: "ジェスロ リュウ",
-        title: "iOS デベロッパー",
+        title: "フルスタックエンジニア",
         "experience.title": "職歴",
         "skills.title": "言語・スキル・技術",
         "education.title": "学歴",
@@ -213,13 +213,13 @@ const translations = {
         "job.alibaba.company": "アリババグループ",
         "job.tplink.company": "TP-LINK",
         "skills.programming.title": "プログラミング言語",
-        "skills.programming.content": "Swift, Objective-C, C/C++, Python, SQL, Kotlin",
+        "skills.programming.content": "Swift, Objective-C, C/C++, Python, SQL, Kotlin, Java",
         
         "skills.frameworks.title": "フレームワークとツール",
-        "skills.frameworks.content": "UIKit, SwiftUI, Flutter, Ktor, Jenkins",
+        "skills.frameworks.content": "UIKit, SwiftUI, Flutter, Ktor, Jenkins, SpringBoot",
         
         "skills.languages.title": "言語",
-        "skills.languages.content": "英語（流暢）、日本語（初級）、中国語（ネイティブ）",
+        "skills.languages.content": "英語（流暢）、日本語（中級）、中国語（ネイティブ）"
     }
 };
 
