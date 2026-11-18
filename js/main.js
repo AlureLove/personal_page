@@ -47,6 +47,7 @@
             const m = Math.min((bot - top) / 2, vh * .2);
             return [top + m, bot - m];
         });
+        zones[0][1] = Math.max(zones[0][1], vh * anchor + 1);     // unscrolled always means standing on the doorstep
     }
     function progress() {
         const y = scrollY + innerHeight * anchor, n = zones.length;
@@ -87,7 +88,6 @@
         scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
         history.replaceState(null, '', a.getAttribute('href'));
     }));
-    $('.badge').addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
 
     /* ---------- copy email ---------- */
     const copyBtn = $('#copy'), email = $('#email').textContent.trim();

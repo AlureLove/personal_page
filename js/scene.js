@@ -106,6 +106,25 @@
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m); mesh.position.set(p ? x : x + OX, y + h / 2, z); mesh.receiveShadow = true;
         (p || world).add(mesh); return mesh;
     }
+    /* a board carrying an employer's logo (js/brands.js); lit after dark like the other signs */
+    function logo(key, w, h, x, y, z, o, p) {
+        o = o || {};
+        const S = 48, W = Math.round(w * S), H = Math.round(h * S), c = cv(W, H), g = c.getContext('2d');
+        const t = new THREE.CanvasTexture(c); t.magFilter = THREE.NearestFilter; t.minFilter = THREE.LinearFilter; t.generateMipmaps = false;
+        g.fillStyle = o.bg || '#fff'; g.fillRect(0, 0, W, H);
+        const img = new Image();
+        img.onload = () => { const k = Math.min(W * .86 / img.width, H * .7 / img.height), iw = img.width * k, ih = img.height * k; g.drawImage(img, (W - iw) / 2, (H - ih) / 2, iw, ih); t.needsUpdate = true; };
+        if (typeof BRANDS !== 'undefined' && BRANDS[key]) img.src = BRANDS[key];
+        const m = new THREE.MeshLambertMaterial({ map: t, emissive: 0xffffff, emissiveMap: t, emissiveIntensity: 0 }); glows.push([m, .75]);
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m); mesh.position.set(p ? x : x + OX, y + h / 2, z); mesh.receiveShadow = true;
+        (p || world).add(mesh); return mesh;
+    }
+    const UP = new THREE.Vector3(0, 1, 0);
+    function stick(a, b, t, m, p) {              // a thin bar from point a to point b
+        const A = new THREE.Vector3(a[0], a[1], a[2]), Bv = new THREE.Vector3(b[0], b[1], b[2]), d = Bv.clone().sub(A), o = new THREE.Mesh(unit, M(m));
+        o.scale.set(t, d.length(), t); o.position.copy(A).add(Bv).multiplyScalar(.5); o.quaternion.setFromUnitVectors(UP, d.normalize());
+        o.castShadow = true; p.add(o); return o;
+    }
     function tree(x, z, o) {
         o = o || {}; const g = grp(x, 0, z), h = o.h || 3.4, s = o.s || 1, c = o.c || 0x4f8a52, c2 = o.c2 || 0x66a05e;
         B(.3, h * .5, .3, 0x6b4c36, 0, 0, 0, g);
@@ -193,8 +212,9 @@
         }), N);
         const d = new THREE.Object3D(), col = new THREE.Color(), tones = [0xb9b3ad, 0xa7adb6, 0xc4bcae, 0x9ea4a8, 0xb0a79f];
         for (let i = 0; i < N; i++) {
-            const z = -13 - Math.pow(R(), .8) * 70, far = (-z - 13) / 70, h = 6 + R() * 8 + far * 20 * R();
-            d.position.set(-50 + R() * 260, h / 2, z); d.scale.set(4 + R() * 6, h, 4 + R() * 5); d.updateMatrix();
+            const z = -13 - Math.pow(R(), .8) * 70, far = (-z - 13) / 70, tall = 6 + R() * 8 + far * 20 * R(), x = -50 + R() * 260;
+            const h = x > 111 && x < 129 ? Math.min(tall, 2 + far * 2.5) : tall;       // low roofs behind the university gate
+            d.position.set(x, h / 2, z); d.scale.set(4 + R() * 6, h, 4 + R() * 5); d.updateMatrix();
             im.setMatrixAt(i, d.matrix); im.setColorAt(i, col.setHex(pick(tones)));
         }
         im.frustumCulled = false; world.add(im); glows.push([im.material, .9]);
@@ -262,63 +282,81 @@
     B(.07, .09, .06, 0xd9a35c, .23, .38, .07, cat, false); B(.07, .09, .06, 0xd9a35c, .37, .38, -.07, cat, false);
     const tail = grp(-.25, .1, 0, cat); B(.07, .34, .07, 0xd9a35c, 0, 0, 0, tail);
 
+    /* ExaWizards sits in Sumitomo Fudosan Mita Twin: maroon louvres over dark glass, one end raked outward */
+    function mitaTwin(x, w, h) {
+        bldg({ x, w, h, d: 6.5, side: 0x6e2424, roof: 0x4a1a1a, front: paint(w, h, (p, e) => {
+            p(0, 0, w, h, '#2b3440');
+            for (let y = 3.3; y < h; y += .62) {
+                p(0, y, w, .28, '#3d5266');
+                for (let x = .08; x < w; x += .55) { if (R() < .55) p(x, y, .46, .28, '#5a7790'); if (R() < .3) e(x, y, .46, .28, '#ffe2a6'); }
+                p(0, y + .28, w, .34, '#8e2b2b'); p(0, y + .52, w, .05, '#aa3d38');
+            }
+            p(0, 0, w, 3.3, '#7a2424'); p(0, 3.12, w, .18, '#5c1b1b');
+            p(.5, .12, w - 1, 2.2, '#1f2a36'); p(.6, .2, w - 1.2, 2.04, '#3d5266'); p(.6, 1.3, w - 1.2, .94, '#5a7790'); e(.6, .2, w - 1.2, 2.04, '#ffe9bd');
+            for (let x = .6; x < w - .5; x += 1.45) p(x - .04, .2, .08, 2.04, '#7a2424');
+        }) });
+        B(.5, h + .2, 1.2, 0x7a2424, x - w / 2 - .12, 0, FZ - .62).rotation.z = .07;
+    }
+
     // 02 · ExaWizards — exaBase AI on the lobby screen, mid-answer
     fence(16.1, 19.9);
-    bldg({ x: 12, w: 8, h: 14, d: 7, side: 0xd5d9e0, front: paint(8, 14, (p, e, w, h) => {
-        p(0, 0, w, h, '#eef1f5');
-        for (let y = 4.6; y < h - .6; y += 1.55) { p(.4, y, 7.2, 1.0, '#2f3b57'); wins(p, e, { x: .5, y: y + .08, cols: 7, rows: 1, w: .9, h: .84, dx: 1.02, dy: 0, glass: '#7f9fc0', shine: '#a8c2dc', frame: '#2f3b57', lit: .55 }); }
-        p(0, 4.0, w, .22, '#2f3b57');
-        p(.5, .12, 3.6, 2.6, '#2f3b57'); p(.6, .22, 3.4, 2.4, '#4a6283'); p(.6, 1.5, 3.4, 1.12, '#6480a3'); e(.6, .22, 3.4, 2.4, '#e6f0ff');
-        p(1.7, .12, 1.2, 2.2, '#1d2638'); p(2.26, .12, .08, 2.2, '#eef1f5');
-    }) });
-    sign('ExaWizards', 4.4, .8, 10.4, 2.95, FZ + .06, { bg: '#2f3b57', fg: '#fff', size: .6 });
+    mitaTwin(12, 8, 6.9);
+    logo('exawizards', 4.5, .66, 10.45, 2.42, FZ + .06);
     const typing = [];
-    { const g = grp(14.25, .95, FZ + .08);
+    { const g = grp(14.25, .5, FZ + .08);
       B(2.7, 2.3, .12, 0x1c2230, 0, 0, 0, g);
       const t = px((() => { const c = cv(40, 34), q = c.getContext('2d');
-          q.fillStyle = '#f4f7fb'; q.fillRect(0, 0, 40, 34); q.fillStyle = '#2f3b57'; q.fillRect(0, 0, 40, 6); q.fillStyle = '#8fd0ff'; q.fillRect(2, 2, 2, 2); q.fillStyle = '#fff'; q.fillRect(6, 2, 14, 2);
-          q.fillStyle = '#3f7fd6'; q.fillRect(16, 9, 21, 6); q.fillStyle = '#dbe6f5'; q.fillRect(22, 11, 12, 1); q.fillRect(19, 13, 15, 1);
+          q.fillStyle = '#f4f7fb'; q.fillRect(0, 0, 40, 34); q.fillStyle = '#1f1fd0'; q.fillRect(0, 0, 40, 6); q.fillStyle = '#8fd0ff'; q.fillRect(2, 2, 2, 2); q.fillStyle = '#fff'; q.fillRect(6, 2, 14, 2);
+          q.fillStyle = '#3f5fe0'; q.fillRect(16, 9, 21, 6); q.fillStyle = '#dbe6f5'; q.fillRect(22, 11, 12, 1); q.fillRect(19, 13, 15, 1);
           q.fillStyle = '#dfe4ec'; q.fillRect(3, 18, 26, 8); q.fillStyle = '#7b8798'; q.fillRect(5, 20, 20, 1); q.fillRect(5, 22, 22, 1); q.fillRect(5, 24, 14, 1);
           q.fillStyle = '#dfe4ec'; q.fillRect(3, 28, 13, 5); return c; })());
       const s = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 2.1), new THREE.MeshBasicMaterial({ map: t })); s.position.set(0, 1.15, .07); g.add(s);
       for (let i = 0; i < 3; i++) { const m = new THREE.MeshBasicMaterial({ color: 0x7b8798 }); typing.push(m); B(.1, .1, .02, m, -.88 + i * .2, .24, .08, g, false); } }
-    B(2.2, .14, .7, 0xc5cad4, 10.3, SW, FZ + .36);
 
-    // 03 · Rakuten — glass tower
+    // 03 · Rakuten — Crimson House: a slim glass tower ruled with white fins, the red logo at its crown
     OX = 12;
-    bldg({ x: 12, w: 8, h: 16, d: 7, side: 0x4f7594, front: paint(8, 16, (p, e, w, h) => {
-        p(0, 0, w, h, '#6a93b5');
-        for (let y = 4.4; y < h; y += 1.1) for (let x = 0; x < w; x += 1) {
-            p(x + .06, y + .08, .9, 1, R() < .3 ? '#7fa6c6' : '#5f88ab');
-            if (R() < .4) e(x + .06, y + .08, .9, 1, R() < .5 ? '#ffe2a6' : '#cfe6ff');
+    bldg({ x: 12, w: 5.8, h: 6.8, d: 6, side: 0xdfe3e6, roof: 0xc9cdd1, front: paint(5.8, 6.8, (p, e, w, h) => {
+        p(0, 0, w, h, '#f1f3f4');
+        for (let y = 3.3; y < 5.8; y += .56) for (let x = .24; x < w - .3; x += .66) {
+            p(x, y, .52, .46, R() < .35 ? '#8fb4d6' : '#6f9cc4'); p(x, y + .3, .52, .16, '#a9c8e2');
+            if (R() < .3) e(x, y, .52, .46, '#ffe2a6');
         }
-        p(0, 0, w, 4.3, '#e9e6df'); p(0, 4.12, w, .2, '#c9c4b6');
-        p(.6, .12, 6.8, 2.6, '#2f4a60'); p(.6, 1.5, 6.8, 1.22, '#4a6c86'); e(.6, .12, 6.8, 2.6, '#ffe9bd');
-        for (let x = .6; x < 7.5; x += 1.7) p(x - .04, .12, .09, 2.6, '#e9e6df');
-        p(3.3, .12, 1.4, 2.25, '#1f3446'); p(3.96, .12, .08, 2.25, '#e9e6df');
+        p(.5, .12, w - 1, 2.2, '#27425a'); p(.6, .2, w - 1.2, 2.04, '#4a6c86'); p(.6, 1.3, w - 1.2, .94, '#6f93ae'); e(.6, .2, w - 1.2, 2.04, '#ffe9bd');
+        for (let x = .6; x < w - .5; x += 1.15) p(x - .04, .2, .08, 2.04, '#f1f3f4');
+        p(w / 2 - .65, .12, 1.3, 1.95, '#1f3446'); p(w / 2 - .04, .12, .08, 1.95, '#f1f3f4');
     }) });
-    sign('Rakuten', 4.6, .95, 12, 3.05, FZ + .06, { bg: '#b80d16', fg: '#fff' });
-    B(3.2, .14, 1.1, 0xd8d4c8, 12, 2.78, FZ + .55);
-    planter(9.3, FZ + .5, 1.6); planter(14.7, FZ + .5, 1.6);
+    logo('rakuten', 2.2, .74, 10.45, 5.98, FZ + .05, { bg: '#f1f3f4' });
+    logo('rakuten', 2.9, .8, 12, 2.42, FZ + .06);
+    tree(8.2, FZ - 1.2, { c: 0x356b45, c2: 0x3f7a4a, s: .8, h: 3 }); tree(15.8, FZ - 1.4, { c: 0x356b45, c2: 0x3f7a4a, s: .75, h: 2.8 });
+    planter(9.9, FZ + .5, 1.3);
+    { const g = grp(14.3, SW, FZ + .8), wht = 0xf7f7f4, blk = 0x1d1d22;                    // Okaimono Panda by the door
+      B(.74, .12, .62, 0xd8d4c8, 0, 0, 0, g); B(.46, .42, .36, wht, 0, .26, 0, g);
+      [-.16, .16].forEach(dx => { B(.18, .16, .22, blk, dx, .12, .04, g); B(.14, .3, .16, blk, dx * 1.95, .34, .02, g); B(.16, .14, .1, blk, dx * 1.25, 1.1, 0, g); B(.13, .13, .02, blk, dx * .78, .86, .222, g, false); });
+      B(.56, .46, .44, wht, 0, .68, 0, g); B(.08, .06, .02, blk, 0, .78, .222, g, false); }
 
-    // 05 · Mercari — parcels waiting to ship
-    OX = 23;
-    fence(16.1, 19.4);
-    bldg({ x: 23, w: 7, h: 9.6, d: 6, side: 0xd8d5cd, front: paint(7, 9.6, (p, e, w, h) => {
-        p(0, 0, w, h, '#eeebe4');
-        for (let y = 4.3; y < h - .8; y += 1.75) { p(.5, y, 6, 1.05, '#3c4654'); wins(p, e, { x: .58, y: y + .08, cols: 6, rows: 1, w: .88, h: .9, dx: .99, dy: 0, frame: '#3c4654', lit: .45 }); }
-        p(0, 0, .42, h, '#e2483c'); p(0, 4.02, w, .14, '#d6d2c8');
-        p(1, .12, 5.4, 2.6, '#34485a'); p(1, 1.5, 5.4, 1.22, '#4f6d84'); e(1, .12, 5.4, 2.6, '#ffe9bd');
-        p(3, .12, 1.3, 2.2, '#22323f'); p(3.61, .12, .08, 2.2, '#eeebe4');
-    }) });
-    sign('mercari', 4.2, .9, 23.4, 3.0, FZ + .06, { bg: '#ffffff', fg: '#e2483c', border: '#e2483c' });
-    { const g = grp(20.9, SW, FZ + .75), box = 0xc9a26b, tape = 0xe8d9b8;
-      [[0, 0, .7, .5], [.75, 0, .6, .6], [.1, .5, .55, .42], [.72, .6, .5, .36], [1.45, 0, .5, .4]].forEach(([bx, by, bw, bh]) => { B(bw, bh, .55, box, bx, by, 0, g); B(.08, bh + .01, .56, tape, bx, by, 0, g, false); });
-      B(.9, .08, .6, 0x3f7ea6, 2.6, .16, 0, g); B(.06, 1.1, .06, 0x3f7ea6, 3.02, .16, 0, g); B(.6, .5, .5, box, 2.55, .24, 0, g);
-      [2.3, 2.9].forEach(wx => B(.16, .16, .1, 0x222226, wx, 0, .26, g)); }
+    // 04 · Mercari — Roppongi Hills: Mori Tower's curved glass, the museum cone, and Maman the spider out front
+    OX = 12;
+    fence(15.2, 18.6);
+    { const skin = paint(15.7, 7.6, (p, e, w, h) => {
+          p(0, 0, w, h, '#5b84b0');
+          for (let y = 0; y < h; y += .38) { p(0, y, w, .12, '#a9c4de'); p(0, y + .12, w, .06, '#6f97c0'); for (let x = 0; x < w; x += .44) if (R() < .22) e(x + .04, y + .14, .36, .22, R() < .5 ? '#ffe2a6' : '#fff1c9'); }
+          for (let i = 0; i < 12; i++) { p(i * w / 12, 0, .16, h, '#44668c'); p(i * w / 12 + .16, 0, .08, h, '#86aacd'); }
+      });
+      C(2.35, 2.7, 7.6, 12, skin, 23.3, 0, FZ - 3).scale.z = .8;
+      B(7.2, .34, 1.1, 0x9aa0a6, 23.3, 0, FZ - .5);
+      const cone = paint(6.3, 2.2, (p, e, w, h) => { p(0, 0, w, h, '#cdbb8e'); e(0, 0, w, h, '#ffd98a'); for (let y = 0; y < h; y += .36) { p(0, y, w, .05, '#8f8468'); e(0, y, w, .05, '#6b5a30'); } for (let x = 0; x < w; x += .52) { p(x, 0, .05, h, '#8f8468'); e(x, 0, .05, h, '#6b5a30'); } });
+      C(.6, 1.05, 2.2, 10, cone, 26.5, .3, FZ - .7); }
+    { const g = grp(21, SW, FZ + .75), dk = 0x2a2420;                                       // Maman
+      B(.5, .34, .62, dk, 0, 1.78, 0, g); B(.36, .32, .4, dk, 0, 1.5, .1, g);
+      for (let i = 0; i < 8; i++) { const a = (i + .5) / 8 * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a);
+          stick([c * .2, 1.95, sn * .2], [c * .78, 2.55, sn * .7], .075, dk, g); stick([c * .78, 2.55, sn * .7], [c * 1.2, 0, sn * 1.0], .06, dk, g); } }
+    { const g = grp(24.7, SW, FZ + .45), box = 0xc9a26b, red = 0xe2483c;                     // Mercari board, and boxes ready to ship
+      [-1.0, 1.0].forEach(dx => B(.08, 1.5, .08, 0x33363d, dx, 0, 0, g)); B(2.5, .86, .08, 0xffffff, 0, 1.36, 0, g);
+      logo('mercari', 2.4, .76, 0, 1.41, .045, null, g);
+      [[-.72, 0, .66, .5], [0, 0, .58, .58], [-.62, .5, .5, .4], [.6, 0, .48, .4]].forEach(([bx, by, bw, bh]) => { B(bw, bh, .52, box, bx, by, .5, g); B(.09, bh + .01, .53, red, bx, by, .5, g, false); }); }
 
-    // 04 · Desoul — part-time work on DODOFLASH, so: a café table with a laptop
-    OX = 1;
+    // 05 · Desoul — part-time work on DODOFLASH, so: a café table with a laptop
+    OX = 12;
     tree(28.7, FZ - 1.4); fence(26.6, 30.7, 0xc7c0b2);
     bldg({ x: 34, w: 6.4, h: 6.8, d: 5.4, side: 0xd3c7b0, roof: 0x6b5a4c, front: paint(6.4, 6.8, (p, e, w, h) => {
         p(0, 0, w, h, '#eadfca'); p(0, 0, w, 3.5, '#2f5d4d'); p(0, 3.5, w, .16, '#1f4437');
@@ -336,28 +374,24 @@
       B(.44, .06, .44, 0x8a6a44, -2.35, SW + .44, 1.0, g); B(.06, .52, .44, 0x8a6a44, -2.56, SW + .5, 1.0, g); B(.3, .44, .3, 0x33363d, -2.35, SW, 1.0, g);
       const a1 = B(.74, 1.1, .05, 0x2b2f3a, 1.0, SW, 1.1, g); a1.rotation.x = -.22; sign('OPEN', .62, .36, 1.0, SW + .56, 1.14, { bg: '#2b2f3a', fg: '#f4efe2', glow: .2, size: .8 }, g).rotation.x = -.22; }
 
-    // 06 · ExaWizards again — the summer internship, a year and a half earlier
-    OX = 12;
+    // 06 · ExaWizards again — the 2024 summer internship, in the other twin
     tree(39.4, FZ - 1.6, { s: .9 }); fence(37.3, 41.2);
-    bldg({ x: 45, w: 7.4, h: 12.4, d: 6.5, side: 0x27324a, front: paint(7.4, 12.4, (p, e, w, h) => {
-        p(0, 0, w, h, '#2f3b57');
-        wins(p, e, { x: .7, y: 4.5, cols: 4, rows: 5, w: 1.1, h: 1.05, dx: 1.63, dy: 1.6, glass: '#7f9fc0', shine: '#a8c2dc', frame: '#eef0f4', lit: .5 });
-        p(0, 0, w, 3.9, '#eef0f4'); p(0, 3.72, w, .2, '#c5cad4');
-        p(.8, .12, 5.8, 2.5, '#2f3b57'); p(.9, .22, 5.6, 2.3, '#4a6283'); p(.9, 1.5, 5.6, 1.02, '#6480a3'); e(.9, .22, 5.6, 2.3, '#e6f0ff');
-        p(3.05, .12, 1.3, 2.2, '#1d2638'); p(3.66, .12, .08, 2.2, '#eef0f4');
-    }) });
-    sign('ExaWizards', 4.8, .8, 45, 2.82, FZ + .06, { bg: '#eef0f4', fg: '#2f3b57', size: .6 });
-    B(2.2, .14, .7, 0xc5cad4, 45, SW, FZ + .36);
+    mitaTwin(45, 7, 6.4);
+    logo('exawizards', 4.3, .64, 45, 2.42, FZ + .06);
+    B(2.2, .14, .7, 0x8f8a84, 45, SW, FZ + .36);
 
-    // 07 · Alibaba — the Taote live-streaming years in Hangzhou
-    bldg({ x: 56, w: 10.4, h: 7.8, d: 7, side: 0xdcd4c4, front: paint(10.4, 7.8, (p, e, w, h) => {
-        p(0, 0, w, h, '#f2ecdf');
-        [4.0, 5.7].forEach(y => { p(0, y - .3, w, .22, '#f07b22'); wins(p, e, { x: .5, y, cols: 9, rows: 1, w: .86, h: 1.05, dx: 1.07, dy: 0, frame: '#5a4a3c', lit: .5 }); });
-        p(0, 7.3, w, .5, '#f07b22'); p(0, 3.42, w, .16, '#d5cab3');
-        p(.6, .12, 4, 2.5, '#3a3f4c'); p(.7, .22, 3.8, 2.3, '#5b6f86'); p(.7, 1.5, 3.8, 1.02, '#7890a8'); e(.7, .22, 3.8, 2.3, '#ffe9bd');
-        p(2.05, .12, 1.2, 2.2, '#262a34'); p(2.61, .12, .08, 2.2, '#f2ecdf');
+    // 07 · Alibaba — the Xixi campus in Hangzhou: long white floor slabs over ribbon glass, an orange canopy, and the Taote live stream
+    bldg({ x: 56, w: 10.4, h: 6.6, d: 7, side: 0xd9dcdc, roof: 0xbfc4c4, front: paint(10.4, 6.6, (p, e, w, h) => {
+        p(0, 0, w, h, '#2e3a44');
+        for (let y = 0; y < 6; y += 1.5) {
+            for (let x = .08; x < w; x += .62) { p(x, y + .34, .52, 1.12, R() < .35 ? '#5f7f92' : '#465f70'); p(x, y + 1.0, .52, .46, '#6f8fa2'); if (R() < .4) e(x, y + .34, .52, 1.12, '#ffe2a6'); }
+            p(0, y, w, .3, '#f3f4f2'); p(0, y + .27, w, .05, '#c9cdcb');
+        }
+        p(0, 6, w, .6, '#f3f4f2');
+        p(1.1, .12, 2.7, 2.5, '#1f2a33'); p(1.2, .2, 2.5, 2.34, '#465f70'); p(1.2, 1.4, 2.5, 1.14, '#6f8fa2'); e(1.2, .2, 2.5, 2.34, '#ffe9bd'); p(2.41, .2, .08, 2.34, '#1f2a33');
     }) });
-    sign('Alibaba 杭州', 4.4, .78, 53.2, 2.66, FZ + .06, { bg: '#f07b22', fg: '#fff', size: .6 });
+    B(3.6, .16, 1.7, 0xff6a00, 53.4, 2.72, FZ + .7).rotation.z = .1;
+    logo('alibaba', 4.3, .7, 54.3, 3.36, FZ + .06);
     { const g = grp(59.6, 1.0, FZ + .08);                                                    // the LIVE screen
       B(3.3, 2.1, .12, 0x1c2230, 0, 0, 0, g);
       const t = px((() => { const c = cv(48, 30), q = c.getContext('2d');
@@ -369,14 +403,15 @@
     const liveDot = B(.14, .14, .02, new THREE.MeshBasicMaterial({ color: 0xff3b30 }), 58.32, 2.64, FZ + .16, world, false);
     bike(62.4, FZ + .5, 0xf2b632, .1); bike(63.5, FZ + .55, 0x3f9bd6, -.08);
 
-    // 08 · TP-LINK — routers, and a very large one on the roof
+    // 08 · TP-LINK — routers, a very large one on the roof, and a camera and doorbell like the ones he worked on
     bldg({ x: 67, w: 7, h: 5.3, d: 6, side: 0xc9cdd0, front: paint(7, 5.3, (p, e, w, h) => {
-        p(0, 0, w, h, '#e3e6e8'); p(0, 4.86, w, .44, '#3fb6c4'); p(0, 3.26, w, .12, '#c2c7cb');
+        p(0, 0, w, h, '#eef0f1'); p(0, 4.86, w, .44, '#4acbd6'); p(0, 3.36, w, .1, '#c9ced2');
         wins(p, e, { x: .6, y: 3.62, cols: 5, rows: 1, w: .95, h: 1.0, dx: 1.21, dy: 0, frame: '#4a5560', bar: 1, lit: .5 });
         p(.6, .12, 3.2, 2.3, '#3c4654'); p(.7, .22, 3, 2.1, '#6f8fa8'); p(.7, 1.4, 3, .92, '#8fb0c6'); e(.7, .22, 3, 2.1, '#e6f0ff');
         p(4.6, .12, 1.3, 2.3, '#3c4654'); p(4.7, .12, 1.1, 2.2, '#56616d'); p(5.95, 1.3, .12, .2, '#f4f4f4'); e(5.95, 1.3, .12, .2, '#9fe8ff');
     }) });
-    sign('TP-LINK', 3.2, .7, 65.5, 2.52, FZ + .06, { bg: '#3fb6c4', fg: '#fff', size: .64 });
+    logo('tplink', 2.3, .86, 65.7, 2.48, FZ + .06);
+    { const g = grp(69.75, 2.75, FZ + .12); B(.12, .2, .12, 0xf4f4f1, 0, .1, -.04, g, false); const cam = B(.2, .2, .46, 0xf4f4f1, 0, 0, .2, g); cam.rotation.x = .3; B(.14, .14, .04, 0x1d1d22, 0, -.02, .43, g, false).rotation.x = .3; }
     const leds = [];
     { const g = grp(67.6, 5.3, FZ - 1.2); B(3, .42, 1.6, 0xf4f4f1, 0, 0, 0, g);
       [-1.2, 0, 1.2].forEach((ax, i) => { const a = B(.1, 1.7, .1, 0xf4f4f1, ax, .3, -.6, g); a.rotation.z = (i - 1) * -.22; });
@@ -402,47 +437,76 @@
 
     // across the road, then the campus
     OX = 26;
-    tree(74.7, FZ - 1.2, { c: 0xe0b12e, c2: 0xf0c84a, h: 3.8 });
-    // 10 · Waseda — brick clock tower and ginkgo in the late light
-    const brick = 0x9d5f48, stone = 0xd9d0bf;
-    bldg({ x: 78.4, w: 5.2, h: 4.6, d: 5.5, side: 0x8c5440, roof: 0x3d4250, front: paint(5.2, 4.6, (p, e, w, h) => {
-        p(0, 0, w, h, '#a8674f'); for (let y = .3; y < h; y += .5) p(0, y, w, .04, '#96593f');
-        p(0, 0, w, .4, '#d9d0bf'); p(0, 4.2, w, .16, '#d9d0bf');
-        [.55, 2.05, 3.55].forEach(x => { p(x - .08, .9, 1.26, 2.5, '#d9d0bf'); p(x, .98, 1.1, 2.1, '#5f7f96'); p(x + .12, 3.08, .86, .24, '#5f7f96'); p(x + .5, .98, .08, 2.1, '#d9d0bf'); p(x, 2.0, 1.1, .08, '#d9d0bf'); e(x, .98, 1.1, 2.1, '#ffd58a'); });
+    tree(73.9, FZ - 1.2, { c: 0xe0b12e, c2: 0xf0c84a, h: 3.8 });
+    // 10 · Waseda — Ōkuma Auditorium: the tan-tiled hall with its three portals, and on its left
+    //      the clock tower with its pale Gothic crown, one pinnacle taller than the rest
+    const TILE = '#bfa277', TILE2 = '#b69a70', TRIM = '#eadfc8', DARK = '#3a3128', cream = 0xeadfc8;
+    bldg({ x: 76.6, w: 2.4, h: 5.3, d: 2.4, side: 0xa78a62, roof: 0xd9d0bc, front: paint(2.4, 5.3, (p, e, w, h) => {
+        p(0, 0, w, h, TILE); for (let y = .2; y < h; y += .34) p(0, y, w, .03, TILE2);
+        p(0, 0, w, .5, '#8d8a84');
+        p(.6, .5, 1.2, 1.36, TRIM); p(.72, 1.86, .96, .14, TRIM); p(.86, 2.0, .68, .1, TRIM);
+        p(.74, .5, .92, 1.24, DARK); p(.86, 1.74, .68, .12, DARK); e(.84, .6, .72, .9, '#c9965a');
+        p(1.1, 2.3, .2, .36, DARK); p(.74, 2.8, .92, .18, TRIM); p(.98, 2.98, .44, .56, TRIM); p(1.06, 2.98, .28, .46, DARK);
+        p(0, 5.06, w, .24, TRIM); for (let x = .08; x < w; x += .28) p(x, 4.98, .14, .08, TRIM);
     }) });
-    roof(5.6, 1.7, 5.9, 0x3d4250, 78.4, 4.6, FZ - 2.75);
-    bldg({ x: 82.3, w: 3, h: 7.6, d: 3, side: 0x8c5440, roof: 0x3d4250, front: paint(3, 7.6, (p, e, w, h) => {
-        p(0, 0, w, h, '#a8674f'); for (let y = .3; y < h; y += .5) p(0, y, w, .04, '#96593f');
-        p(0, 0, w, .4, '#d9d0bf'); p(0, 3.5, w, .16, '#d9d0bf'); p(0, 6.5, w, .16, '#d9d0bf'); p(0, 7.4, w, .2, '#d9d0bf');
-        p(.9, .12, 1.2, 2.3, '#d9d0bf'); p(1, .12, 1, 2, '#3a2a22'); p(1.1, 2.12, .8, .2, '#3a2a22');
-        [.5, 1.9].forEach(x => { p(x, 6.72, .6, .6, '#3a2a22'); });
+    B(3, .3, .9, 0x8d8a84, 76.6, 0, FZ + .4);
+    { const g = grp(76.6, 5.3, FZ - 1.2);                                                    // the crown
+      B(2.5, .16, 2.5, cream, 0, 0, 0, g); B(1.6, .9, 1.6, 0x4a4338, 0, .16, 0, g);
+      const arc = paint(1.76, .95, (p, e, w, h) => { p(0, 0, w, h, TRIM); [.2, .72, 1.24].forEach(x => { p(x, .1, .32, .52, DARK); p(x + .06, .62, .2, .12, DARK); p(x + .12, .74, .08, .08, DARK); }); p(0, h - .1, w, .1, '#d6cab0'); });
+      const front = new THREE.Mesh(new THREE.PlaneGeometry(1.76, .95), arc); front.position.set(0, .16 + .475, 1.06); g.add(front);
+      [[-1.05, .96], [1.05, .96], [-1.05, -1.05], [1.05, -1.05]].forEach(([cx, cz], i) => { const ph = i === 0 ? 1.62 : 1.12; B(.36, ph, .36, cream, cx, .16, cz, g); roof(.36, .34, .36, cream, cx, .16 + ph, cz, g); });
+      [-1.05, 1.05].forEach(cx => B(.2, .95, 1.76, cream, cx, .16, -.04, g)); B(1.76, .95, .2, cream, 0, .16, -1.05, g);
+      B(2.2, .1, 2.2, 0xd6cab0, 0, 1.11, 0, g); }
+    bldg({ x: 81.2, w: 6.8, h: 4.0, d: 5.5, side: 0xa78a62, roof: 0x9a9488, front: paint(6.8, 4.0, (p, e, w, h) => {
+        p(0, 0, w, h, TILE); for (let y = .2; y < h; y += .34) p(0, y, w, .03, TILE2);
+        p(0, 0, w, .42, '#8d8a84'); p(0, 3.7, w, .3, TRIM); for (let x = .08; x < w; x += .3) p(x, 3.62, .15, .08, TRIM);
+        [2.1, 3.65, 5.2].forEach(cx => {
+            p(cx - .64, .42, 1.28, 2.3, TRIM); p(cx - .54, 2.72, 1.08, .16, TRIM); p(cx - .38, 2.88, .76, .12, TRIM);
+            p(cx - .48, .42, .96, 2.2, DARK); p(cx - .38, 2.62, .76, .14, DARK);
+            p(cx - .3, 1.86, .6, .6, '#7a6a55'); p(cx - .2, 1.96, .4, .4, '#a9b8bc'); p(cx - .03, 1.96, .06, .4, '#7a6a55'); p(cx - .2, 2.13, .4, .06, '#7a6a55'); e(cx - .2, 1.96, .4, .4, '#ffd58a');
+            p(cx - .38, .42, .76, 1.3, '#2a241e'); for (let gx = -.3; gx < .36; gx += .16) p(cx + gx, .42, .04, 1.3, '#6a5a44'); e(cx - .38, .42, .76, 1.3, '#8a6a3a');
+            p(cx - .16, 3.14, .32, .34, TRIM); p(cx - .1, 3.2, .2, .22, DARK);
+        });
+        [1.2, 2.87, 4.42, 6.1].forEach(x => p(x, 1.5, .1, .7, DARK));
     }) });
-    roof(3.3, 2.6, 3.3, 0x3d4250, 82.3, 7.6, FZ - 1.5);
+    B(7, .14, 5.7, cream, 81.2, 4.0, FZ - 2.75); B(7.3, .22, 1.1, 0x8d8a84, 81.2, 0, FZ + .5); B(6.6, .12, .5, 0x9a9690, 81.2, .22, FZ + .24);
     const hands = (() => {
-        const g = grp(82.3, 4.95, FZ + .05);
-        const f = new THREE.Mesh(new THREE.CylinderGeometry(.74, .74, .08, 12), lam(stone)); f.rotation.x = Math.PI / 2; g.add(f);
-        const f2 = new THREE.Mesh(new THREE.CylinderGeometry(.62, .62, .09, 12), lam(0xf8f4e8)); f2.rotation.x = Math.PI / 2; g.add(f2);
-        for (let i = 0; i < 12; i += 3) { const a = i / 12 * Math.PI * 2; B(.08, .08, .02, 0x1c2230, Math.sin(a) * .5, Math.cos(a) * .5 - .04, .05, g, false); }
+        const g = grp(76.6, 4.24, FZ + .05);
+        const f = new THREE.Mesh(new THREE.CylinderGeometry(.54, .54, .08, 12), lam(0x4a4338)); f.rotation.x = Math.PI / 2; g.add(f);
+        const f2 = new THREE.Mesh(new THREE.CylinderGeometry(.46, .46, .09, 12), lam(0xf8f4e8)); f2.rotation.x = Math.PI / 2; g.add(f2);
+        for (let i = 0; i < 12; i += 3) { const a = i / 12 * Math.PI * 2; B(.07, .07, .02, 0x1c2230, Math.sin(a) * .36, Math.cos(a) * .36 - .035, .05, g, false); }
         const hr = grp(0, 0, .06, g), mn = grp(0, 0, .075, g);
-        B(.09, .34, .02, 0x1c2230, 0, 0, 0, hr, false); B(.06, .52, .02, 0x1c2230, 0, 0, 0, mn, false);
+        B(.08, .25, .02, 0x1c2230, 0, 0, 0, hr, false); B(.05, .38, .02, 0x1c2230, 0, 0, 0, mn, false);
         return [hr, mn];
     })();
-    { const g = grp(77.5, 0, FZ + .5); B(2.9, 1.1, .34, stone, 0, 0, 0, g); sign('早稲田大学', 2.7, .72, 0, .22, .18, { bg: '#e6dece', fg: '#2a1512', size: .74, glow: .25 }, g); }
-    tree(84.9, FZ - .4, { c: 0xe0b12e, c2: 0xf0c84a, h: 4.2, s: 1.1 });
-    for (let i = 0; i < 16; i++) B(.1, .02, .1, R() < .5 ? 0xe0b12e : 0xf0c84a, 83.4 + R() * 3.4, SW, FZ + .3 + R() * 2.2, world, false);
+    tree(85.9, FZ - .4, { c: 0xe0b12e, c2: 0xf0c84a, h: 4.2, s: 1.1 });
+    for (let i = 0; i < 16; i++) B(.1, .02, .1, R() < .5 ? 0xe0b12e : 0xf0c84a, 84.2 + R() * 3.4, SW, FZ + .3 + R() * 2.2, world, false);
 
-    // 11 · Central South University — the gate, and the red-brick hall behind it
+    // 11 · Central South University — the old gate: rose columns carved with white petals on jade feet,
+    //      the name board between them, and open sky behind for the sun to set through
     tree(87.9, FZ - 1.4, { c: 0x3f7a4a, c2: 0x4f8a52, s: 1.1 });
-    bldg({ x: 93, z: FZ - 3.6, w: 12, h: 6.4, d: 5, side: 0x8a3f33, roof: 0x666b73, front: paint(12, 6.4, (p, e, w, h) => {
-        p(0, 0, w, h, '#9c4a3a'); p(0, 5.9, w, .5, '#e3dccd'); p(0, 0, w, .5, '#e3dccd');
-        wins(p, e, { x: .6, y: 1.0, cols: 8, rows: 3, w: .9, h: 1.1, dx: 1.42, dy: 1.6, frame: '#e3dccd', bar: 1, lit: .55 });
-    }) });
-    { const g = grp(93, 0, FZ + .2), sm = 0xd9d2c4;
-      [-3.3, 3.3].forEach(gx => { B(1, 3.5, .9, sm, gx, 0, 0, g); B(1.2, .22, 1.1, 0xc4bcaa, gx, 0, 0, g); });
-      B(8.6, .95, 1, sm, 0, 3.5, 0, g); B(9, .2, 1.3, 0x7a3a30, 0, 4.45, 0, g); B(7.8, .16, 1.1, 0x8a4438, 0, 4.65, 0, g);
-      sign('中南大学', 4.2, .72, 0, 3.6, .51, { bg: '#d9d2c4', fg: '#b02a20', size: .78, glow: .3 }, g); }
-    tree(97.7, FZ - .9, { c: 0x3f7a4a, c2: 0x4f8a52, h: 3.8, s: 1.15 });
-    bike(96.6, FZ + .35, 0xc93a22, .06);
+    B(8.8, .1, 2.2, 0x7fb069, 93.6, .1, FZ - 1.25, world, false);                            // lawn
+    B(4.2, .02, 14, 0x5a5c63, 93.6, .11, FZ - 9.4, world, false);                            // the road in
+    B(4.2, .3, .42, 0xc9383a, 93.6, .2, FZ - 1.75);                                          // red flower bed
+    for (let bx = 89.6; bx < 98; bx += 1) B(.3, .62, .3, 0xb9bcc0, bx, 0, FZ - .2);          // stone bollards
+    { const g = grp(93.6, 0, FZ - 2.5);
+      const shaft = paint(2.6, 3.2, p => {
+          p(0, 0, 2.6, 3.2, '#d98c9c');
+          for (let r = 0; r < 8; r++) for (let c = 0; c < 4; c++) { const x = c * .65 + (r % 2) * .32, y = .12 + r * .39; p(x, y, .26, .2, '#f6eef0'); p(x + .07, y - .06, .13, .32, '#f6eef0'); }
+      });
+      [-3, 3].forEach(gx => {
+          B(1.6, .3, 1.6, 0x6fb0a0, gx, 0, 0, g); B(1.25, .42, 1.25, 0x8cc7b6, gx, .3, 0, g);
+          C(.42, .47, 3.2, 8, shaft, gx, .72, 0, g);
+          B(1.15, .36, 1.15, 0xd4d2ca, gx, 3.92, 0, g); B(.4, .3, .26, 0xbdbab0, gx - Math.sign(gx) * .5, 3.95, .5, g);
+          B(1, 1.3, 1, 0xb8474f, gx, 4.28, 0, g); B(.66, .86, .04, 0xc3ccd6, gx, 4.5, .5, g, false);
+          B(1.24, .2, 1.24, 0x8a2f3a, gx, 5.58, 0, g); B(.9, .16, .9, 0xd4d2ca, gx, 5.78, 0, g);
+      });
+      B(5, .16, .6, 0xe0a83a, 0, 4.3, 0, g); B(5, .8, .5, 0xf3ecdc, 0, 4.46, 0, g);
+      B(5.3, .24, .74, 0xb8474f, 0, 5.26, 0, g); B(5.4, .1, .86, 0x8f8f8a, 0, 5.5, 0, g);
+      sign('中 南 大 学', 4.7, .72, 0, 4.5, .26, { bg: '#f3ecdc', fg: '#16161a', size: .82, weight: 900, glow: .3 }, g); }
+    [[89, -7.4, 4.4], [89.9, -8.6, 3.6], [98.3, -7.2, 4.2], [99.2, -9, 3.4]].forEach(([tx, dz, th]) => { B(.24, .8, .24, 0x6b4c36, tx, .1, FZ + dz); B(.95, th, .95, 0x356b45, tx, .8, FZ + dz); B(.6, .7, .6, 0x3f7a4a, tx, .8 + th, FZ + dz); });
+    tree(98.9, FZ - 3.2, { c: 0x3f7a4a, c2: 0x4f8a52, h: 3.8, s: 1.1 });
+    bike(88.7, FZ + .35, 0xc93a22, .06);
 
     // 12 · the vending machines (skills)
     bldg({ x: 105, w: 8.6, h: 5.2, d: 5, side: 0x9b9d9f, roof: 0x70747a, front: paint(8.6, 5.2, (p, e, w, h) => {
@@ -545,7 +609,7 @@
         { h: 12, top: '#4f9fea', bot: '#cfe8fb', sun: '#ffffff', si: .85, hs: '#e8f3ff', hg: '#b0a898', hi: .62, n: 0, lx: -.2, ly: 1.35, el: 40, az: 5 },
         { h: 15.5, top: '#5a9be4', bot: '#f6e3c0', sun: '#fff0d0', si: .85, hs: '#e6ecf8', hg: '#b5a590', hi: .62, n: 0, lx: .45, ly: .95, el: 22, az: 7 },
         { h: 17, top: '#5a78c8', bot: '#ffbf84', sun: '#ffc48c', si: .85, hs: '#eee4e2', hg: '#a89484', hi: .6, n: .1, lx: .8, ly: .6, el: 9.5, az: 8 },
-        { h: 17.7, top: '#46509e', bot: '#ff9566', sun: '#ffa06a', si: .72, hs: '#d6c4d4', hg: '#8f7a78', hi: .56, n: .32, lx: .9, ly: .42, el: 4.5, az: 9 },
+        { h: 17.7, top: '#46509e', bot: '#ff9566', sun: '#ffa06a', si: .72, hs: '#d6c4d4', hg: '#8f7a78', hi: .56, n: .32, lx: .9, ly: .42, el: 2.6, az: 9 },
         { h: 18.5, top: '#232a66', bot: '#c7607a', sun: '#9a6a9a', si: .32, hs: '#8088c0', hg: '#5a5068', hi: .56, n: .78, lx: .8, ly: .5, el: -5, az: 10 },
         { h: 19.5, top: '#0b1030', bot: '#27356b', sun: '#8aa0ff', si: .3, hs: '#5d6cb0', hg: '#33344e', hi: .52, n: 1, lx: .45, ly: .9, el: -16, az: 10 }
     ];
@@ -587,8 +651,8 @@
         renderer.setSize(rw, rh, false);
         camera.aspect = rw / rh;
         // keep the walker clear of the cards: right of them on a wide screen, above them on a phone
-        let fx = .5, fy = .28;
-        if (!phone) { const card = document.querySelector('.hero .card'); fx = clamp((card.getBoundingClientRect().right + W) / 2 / W, .5, .76); fy = .54; }
+        let fx = .5, fy = .22;
+        if (!phone) { const card = document.querySelector('.hero .card'); fx = clamp((card.getBoundingClientRect().right + W) / 2 / W, .5, .76); fy = .5; }
         camera.setViewOffset(rw, rh, (.5 - fx) * rw, (.5 - fy) * rh, rw, rh);
         camera.updateProjectionMatrix();
     }

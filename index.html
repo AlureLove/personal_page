@@ -15,6 +15,7 @@
 <script src="js/vendor/three.min.js" defer></script>
 <script src="js/i18n.js" defer></script>
 <script src="js/main.js" defer></script>
+<script src="js/brands.js" defer></script>
 <script src="js/scene.js" defer></script>
 </head>
 <body>
@@ -22,9 +23,19 @@
 <canvas id="scene" aria-hidden="true"></canvas>
 <div class="bubble" id="bubble" lang="ja" aria-hidden="true"></div>
 
+<!-- the time on the walk, and the language switch, float over the sky -->
+<div class="tools">
+  <span class="clock" id="clock" aria-hidden="true">08:00</span>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-lang="zh" aria-pressed="false" lang="zh">中<span>文</span></button>
+    <button type="button" data-lang="ja" aria-pressed="false" lang="ja">日<span>本語</span></button>
+  </div>
+</div>
+
+<!-- the route runs along the bottom of the screen, like the paving under his feet -->
 <nav class="bar" aria-label="Route">
   <div class="in">
-    <a class="badge" href="#start" aria-label="Back to start">JL</a>
     <div class="route">
       <div class="strip" aria-hidden="true">
         <i class="fill" id="fill"></i>
@@ -38,12 +49,6 @@
         <li><a href="#skills" data-stop="11"><span class="jp" lang="ja">技能</span><span class="sub" data-i18n="nav.skills">Skills</span></a></li>
         <li><a href="#contact" data-stop="12"><span class="jp" lang="ja">連絡</span><span class="sub" data-i18n="nav.contact">Contact</span></a></li>
       </ol>
-    </div>
-    <span class="clock" id="clock" aria-hidden="true">08:00</span>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="en" aria-pressed="true">EN</button>
-      <button type="button" data-lang="zh" aria-pressed="false" lang="zh">中<span>文</span></button>
-      <button type="button" data-lang="ja" aria-pressed="false" lang="ja">日<span>本語</span></button>
     </div>
   </div>
 </nav>
@@ -99,30 +104,30 @@
     </article>
   </section>
 
-  <section class="stop" id="desoul" data-x="35" data-h="12">
+  <section class="stop" id="mercari" data-x="35" data-h="12">
     <article class="card">
       <span class="plate" lang="ja">東京 <b>TOKYO</b></span>
       <span class="over"><span data-i18n="experience.title">Experience</span> 03/07</span>
-      <p class="when">2024.05 – <span data-i18n="present">Present</span> <span class="now">NOW</span></p>
-      <h2 data-i18n="job.desoul.company">Desoul Inc</h2>
-      <p class="role" data-i18n="job.desoul.role">iOS Application Development Engineer (Part Time)</p>
-      <ul>
-        <li data-i18n="job.desoul.d1">Independently developing the <a class="ext" href="https://apps.apple.com/jp/app/dodoflash/id1575172812" target="_blank" rel="noopener">DODOFLASH</a> application</li>
-        <li data-i18n="job.desoul.d2">Implementing page refactoring, feature iterations, and performance optimization</li>
-      </ul>
-    </article>
-  </section>
-
-  <section class="stop" id="mercari" data-x="46" data-h="13">
-    <article class="card">
-      <span class="plate" lang="ja">東京 <b>TOKYO</b></span>
-      <span class="over"><span data-i18n="experience.title">Experience</span> 04/07</span>
       <p class="when">2025.01 – 2025.03</p>
       <h2 data-i18n="job.mercari.company">Mercari Inc</h2>
       <p class="role" data-i18n="job.mercari.role">Software Engineer iOS (Winter Intern)</p>
       <ul>
         <li data-i18n="job.mercari.d1">Developed logistics-related features in <a class="ext" href="https://apps.apple.com/jp/app/id667861049" target="_blank" rel="noopener">Mercari App</a>, including transaction shipping methods</li>
         <li data-i18n="job.mercari.d2">Participated in module architecture migration based on internal "Atom Architecture", transitioning modules from architectureV1 to architectureV2</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="stop" id="desoul" data-x="46" data-h="13">
+    <article class="card">
+      <span class="plate" lang="ja">東京 <b>TOKYO</b></span>
+      <span class="over"><span data-i18n="experience.title">Experience</span> 04/07</span>
+      <p class="when">2024.05 – 2024.12</p>
+      <h2 data-i18n="job.desoul.company">Desoul Inc</h2>
+      <p class="role" data-i18n="job.desoul.role">iOS Application Development Engineer (Part Time)</p>
+      <ul>
+        <li data-i18n="job.desoul.d1">Independently developed the <a class="ext" href="https://apps.apple.com/jp/app/dodoflash/id1575172812" target="_blank" rel="noopener">DODOFLASH</a> application</li>
+        <li data-i18n="job.desoul.d2">Implemented page refactoring, feature iterations, and performance optimization</li>
       </ul>
     </article>
   </section>
@@ -218,7 +223,7 @@
     </article>
   </section>
 
-  <section class="stop" id="waseda" data-x="106" data-h="17">
+  <section class="stop" id="waseda" data-x="104.9" data-h="17">
     <article class="card">
       <span class="plate" lang="ja">東京 <b>TOKYO</b></span>
       <span class="over"><span data-i18n="education.title">Education</span> 01/02</span>
@@ -293,7 +298,7 @@
     </article>
     <footer>
       <p class="again" lang="ja">明日もまた、出かける。</p>
-      <p>&copy; 2026 Jethro Liu · <span data-i18n="footer.credits">Inspired by</span> <a href="https://muqingjia.com/" target="_blank" rel="noopener" lang="ja">沐晴線</a></p>
+      <p>&copy; 2026 Jethro Liu</p>
     </footer>
   </section>
 </main>

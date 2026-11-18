@@ -31,7 +31,6 @@ const translations = {
         "contact.lede": "Drop a letter in the post box.",
         "contact.copy": "Copy email",
         "contact.copied": "Copied",
-        "footer.credits": "Inspired by",
 
         "job.exawizards.company": "ExaWizards Inc",
         "job.exawizards.role": "Full-stack Engineer",
@@ -48,15 +47,15 @@ const translations = {
         "job.rakuten.d3": "Contributing to Rakuten AI Avatar features, focusing on digital employee capabilities including STT, TTS, ASR, multimodal recognition, and agent development",
         "job.rakuten.d4": "Implementing data warehouse construction and data tracking systems",
 
-        "job.desoul.company": "Desoul Inc",
-        "job.desoul.role": "iOS Application Development Engineer (Part Time)",
-        "job.desoul.d1": "Independently developing the [[dodoflash|DODOFLASH]] application",
-        "job.desoul.d2": "Implementing page refactoring, feature iterations, and performance optimization",
-
         "job.mercari.company": "Mercari Inc",
         "job.mercari.role": "Software Engineer iOS (Winter Intern)",
         "job.mercari.d1": "Developed logistics-related features in [[mercari|Mercari App]], including transaction shipping methods",
         "job.mercari.d2": "Participated in module architecture migration based on internal \"Atom Architecture\", transitioning modules from architectureV1 to architectureV2",
+
+        "job.desoul.company": "Desoul Inc",
+        "job.desoul.role": "iOS Application Development Engineer (Part Time)",
+        "job.desoul.d1": "Independently developed the [[dodoflash|DODOFLASH]] application",
+        "job.desoul.d2": "Implemented page refactoring, feature iterations, and performance optimization",
 
         "job.exaintern.company": "ExaWizards Inc",
         "job.exaintern.role": "Full-stack Application Development Engineer (Summer Intern)",
@@ -147,7 +146,6 @@ const translations = {
         "contact.lede": "往邮筒里投封信吧。",
         "contact.copy": "复制邮箱",
         "contact.copied": "已复制",
-        "footer.credits": "设计灵感来自",
 
         "job.exawizards.company": "ExaWizards株式会社",
         "job.exawizards.role": "全栈工程师",
@@ -164,15 +162,15 @@ const translations = {
         "job.rakuten.d3": "参与 Rakuten AI Avatar 功能开发，聚焦数字员工能力，包括 STT、TTS、ASR、多模态识别和 Agent 开发",
         "job.rakuten.d4": "负责数据仓库建设与数据埋点系统的实现",
 
-        "job.desoul.company": "Desoul株式会社",
-        "job.desoul.role": "iOS 应用开发工程师（兼职）",
-        "job.desoul.d1": "独立开发 [[dodoflash|DODOFLASH]] 应用",
-        "job.desoul.d2": "负责页面重构、功能迭代和性能优化",
-
         "job.mercari.company": "Mercari株式会社",
         "job.mercari.role": "iOS 软件工程师（Winter Intern）",
         "job.mercari.d1": "开发 [[mercari|Mercari App]] 的物流相关功能，包括交易配送方式等",
         "job.mercari.d2": "参与模块架构迁移，基于内部“Atom 架构”将模块从 architectureV1 迁移到 architectureV2",
+
+        "job.desoul.company": "Desoul株式会社",
+        "job.desoul.role": "iOS 应用开发工程师（兼职）",
+        "job.desoul.d1": "独立开发 [[dodoflash|DODOFLASH]] 应用",
+        "job.desoul.d2": "负责页面重构、功能迭代和性能优化",
 
         "job.exaintern.company": "ExaWizards株式会社",
         "job.exaintern.role": "全栈应用开发工程师（暑期实习）",
@@ -263,7 +261,6 @@ const translations = {
         "contact.lede": "ポストに手紙をどうぞ。",
         "contact.copy": "メールをコピー",
         "contact.copied": "コピーしました",
-        "footer.credits": "Inspired by",
 
         "job.exawizards.company": "株式会社エクサウィザーズ",
         "job.exawizards.role": "フルスタックエンジニア",
@@ -280,15 +277,15 @@ const translations = {
         "job.rakuten.d3": "Rakuten AI Avatar の機能開発に参加。STT・TTS・ASR、マルチモーダル認識、エージェント開発などデジタル社員機能を担当",
         "job.rakuten.d4": "データウェアハウスの構築とデータトラッキングシステムの実装",
 
-        "job.desoul.company": "Desoul株式会社",
-        "job.desoul.role": "iOS アプリケーション開発エンジニア（パートタイム）",
-        "job.desoul.d1": "[[dodoflash|DODOFLASH]] アプリケーションを単独で開発",
-        "job.desoul.d2": "ページのリファクタリング、機能の改善、パフォーマンスの最適化を担当",
-
         "job.mercari.company": "株式会社メルカリ",
         "job.mercari.role": "ソフトウェアエンジニア iOS（ウィンターインターン）",
         "job.mercari.d1": "[[mercari|メルカリ]]アプリのロジスティクス関連機能を開発し、取引の配送方法などを実装",
         "job.mercari.d2": "内部の「Atomアーキテクチャ」に基づき、モジュールを architectureV1 から architectureV2 へ移行する作業に参加",
+
+        "job.desoul.company": "Desoul株式会社",
+        "job.desoul.role": "iOS アプリケーション開発エンジニア（パートタイム）",
+        "job.desoul.d1": "[[dodoflash|DODOFLASH]] アプリケーションを単独で開発",
+        "job.desoul.d2": "ページのリファクタリング、機能の改善、パフォーマンスの最適化を担当",
 
         "job.exaintern.company": "株式会社エクサウィザーズ",
         "job.exaintern.role": "フルスタック アプリケーション開発エンジニア（サマーインターン）",
